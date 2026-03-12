@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Web Interactiva</title>
+    <style>
+        /* Estilos generales */
+        :root {
+            --bg: #ffffff;
+            --text: #333333;
+            --primary: #3498db;
+        }
+        [data-theme="dark"] {
+            --bg: #1a1a1a;
+            --text: #f4f4f4;
+            --primary: #9b59b6;
+        }
+        body {
+            font-family: sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            transition: 0.3s;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        nav {
+            width: 100%;
+            background: var(--primary);
+            padding: 1rem;
+            text-align: center;
+        }
+        nav button {
+            background: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 0 5px;
+        }
+        .container {
+            padding: 2rem;
+            text-align: center;
+            max-width: 600px;
+        }
+        .hidden { display: none; }
+        
+        /* Widget de Tareas */
+        .todo-input {
+            padding: 0.5rem;
+            width: 70%;
+        }
+        ul { list-style: none; padding: 0; }
+        li {
+            background: #eee;
+            margin: 5px 0;
+            padding: 10px;
+            color: #333;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <button onclick="showSection('inicio')">Inicio</button>
+    <button onclick="showSection('tareas')">Tareas</button>
+    <button onclick="toggleTheme()">🌙 Modo</button>
+</nav>
+
+<div id="inicio" class="container">
+    <h1>Bienvenido a tu Web</h1>
+    <p>Esta página demuestra cómo combinar estructura, diseño y dinamismo en un solo archivo.</p>
+    <button onclick="alert('¡Hola! Has interactuado con la web.')" style="padding: 10px 20px;">Haz clic aquí</button>
+</div>
+
+<div id="tareas" class="container hidden">
+    <h2>Lista de Tareas</h2>
+    <input type="text" id="taskInput" class="todo-input" placeholder="Nueva tarea...">
+    <button onclick="addTask()">Añadir</button>
+    <ul id="taskList"></ul>
+</div>
+
+<script>
+    // Navegación entre secciones
+    function showSection(id) {
+        document.getElementById('inicio').classList.add('hidden');
+        document.getElementById('tareas').classList.add('hidden');
+        document.getElementById(id).classList.remove('hidden');
+    }
+
+    // Cambio de tema (Claro/Oscuro)
+    function toggleTheme() {
+        const body = document.documentElement;
+        const currentTheme = body.getAttribute('data-theme');
+        body.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
+    }
+
+    // Lógica de la lista de tareas
+    function addTask() {
+        const input = document.getElementById('taskInput');
+        const val = input.value;
+        if (val === '') return;
+
+        const li = document.createElement('li');
+        li.innerHTML = `${val} <button onclick="this.parentElement.remove()">X</button>`;
+        document.getElementById('taskList').appendChild(li);
+        input.value = '';
+    }
+</script>
+
+</body>
+</html>
